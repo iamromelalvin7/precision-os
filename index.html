@@ -1,18 +1,18 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#080808" />
-  <meta name="description" content="APEX — Semester OS · Semester schedule dashboard for Romel Lartey · UG CPEN Level 200" />
+  <meta name="description" content="APEX Semester OS  ·  Semester schedule dashboard for Romel Lartey  ·  UG CPEN Level 200" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <title>APEX — Semester OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <title>APEX Semester OS</title>
 
   <style>
     /* ─── RESET ─────────────────────────────────────────── */
@@ -20,7 +20,7 @@
     html { font-size: 16px; -webkit-font-smoothing: antialiased; }
     body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-    /* ─── DESIGN TOKENS ─────────────────────────────────── */
+    /* ─── DESIGN TOKENS — DARK (default) ─────────────────── */
     :root {
       --bg:        #080808;
       --surface:   #0f0f0f;
@@ -44,6 +44,7 @@
 
       --mono: 'JetBrains Mono', monospace;
       --display: 'Syne', sans-serif;
+      --display-hero: 'Changa One', cursive;
 
       /* Layout */
       --axis-width: 52px;
@@ -54,6 +55,28 @@
       --grid-height: calc(960 * 1.4px); /* 1344px */
     }
 
+    /* ─── LIGHT THEME OVERRIDES ───────────────────────────── */
+    [data-theme="light"] {
+      --bg:        #f8fafc;
+      --surface:   #ffffff;
+      --surface2:  #f1f5f9;
+      --border:    #e2e8f0;
+      --border2:   #cbd5e1;
+      --text:      #0f172a;
+      --text-muted:#64748b;
+      --text-dim:  #94a3b8;
+      --accent:    #16a34a;
+
+      --lecture-bg:    #eff6ff; --lecture-border: #3b82f6; --lecture-text: #1d4ed8;
+      --lab-bg:        #faf5ff; --lab-border:     #a855f7; --lab-text:    #7e22ce;
+      --backend-bg:    #f0fdf4; --backend-border: #22c55e; --backend-text:#15803d;
+      --ml-bg:         #fff7ed; --ml-border:      #f97316; --ml-text:     #c2410c;
+      --robotics-bg:   #fff7ed; --robotics-border:#ea580c; --robotics-text:#9a3412;
+      --study-bg:      #f0fdf4; --study-border:   #22c55e; --study-text:  #15803d;
+      --group-bg:      #f0fdfa; --group-border:   #14b8a6; --group-text:  #0f766e;
+      --review-bg:     #f8fafc; --review-border:  #94a3b8; --review-text: #475569;
+    }
+
     /* ─── SCROLLBAR ──────────────────────────────────────── */
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
@@ -62,52 +85,136 @@
     /* ─── APP SHELL ──────────────────────────────────────── */
     #app { display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* ─── HEADER ─────────────────────────────────────────── */
+    /* ─── HEADER — TOP STRIP ─────────────────────────────── */
     .apex-header {
-      padding: 20px 24px 16px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
       position: sticky; top: 0; z-index: 100;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
     }
-    .apex-header .institution {
-      font-family: var(--mono);
-      font-size: 8px;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 6px;
+    .header-top-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 20px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
     }
-    .apex-header .app-title {
-      font-family: var(--display);
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: -0.03em;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-    .apex-header .app-title .accent { color: var(--accent); }
-    .apex-header .subtitle {
+    .header-top-strip .institution-text {
       font-family: var(--mono);
       font-size: 9px;
       color: var(--text-muted);
-      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
     }
-    .apex-header .header-sep {
-      margin-top: 12px;
-      border: none;
-      border-top: 1px solid var(--border);
+    .header-active-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .live-pulse-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 2s ease-in-out infinite;
     }
 
-    /* ─── VIEW NAV TABS ──────────────────────────────────── */
-    .view-nav {
+    /* ─── HEADER — MAIN ROW ──────────────────────────────── */
+    .header-main-row {
       display: flex;
-      gap: 0;
-      padding: 10px 24px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
       align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      height: 56px;
     }
+    .header-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .header-logo {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: #0a2010;
+      color: var(--accent);
+      font-family: var(--display-hero);
+      font-style: italic;
+      font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .header-brand-text {}
+    .header-title {
+      font-family: var(--display-hero);
+      font-style: italic;
+      font-size: 20px;
+      line-height: 1.1;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .header-title .accent { color: var(--accent); }
+    .header-sub {
+      font-family: var(--mono);
+      font-size: 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 1px;
+    }
+    .header-divider {
+      width: 1px; height: 26px;
+      background: var(--border2);
+      flex-shrink: 0;
+    }
+    .header-meta-pills {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .meta-pill {
+      font-family: var(--mono);
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .meta-pill.time-pill {
+      background: #0a2010;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .header-spacer { flex: 1; }
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Theme toggle button */
+    .theme-toggle-btn {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .theme-toggle-btn:hover { color: var(--text); border-color: var(--text-muted); }
+    .theme-toggle-btn svg { width: 14px; height: 14px; }
+
+    /* ─── VIEW NAV PILL (inside header) ──────────────────── */
     .view-nav-pill {
       display: flex;
       border: 1px solid var(--border2);
@@ -242,11 +349,12 @@
     .now-category-pill svg { width: 10px; height: 10px; }
 
     .now-title {
-      font-family: var(--display);
+      font-family: var(--display-hero);
+      font-style: italic;
       font-size: 26px;
-      font-weight: 800;
+      font-weight: 400;
       color: var(--text);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
       line-height: 1.1;
       margin-bottom: 5px;
     }
@@ -292,8 +400,8 @@
 
     /* Sacred treatment in NOW view */
     .now-card.sacred-card {
-      border-color: #4caf50;
-      box-shadow: 0 0 0 1px rgba(76,175,80,0.2);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(76,175,80,0.15);
     }
     .sacred-now-badge {
       display: inline-flex;
@@ -303,9 +411,9 @@
       font-size: 8px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #4caf50;
+      color: var(--accent);
       background: #0a2010;
-      border: 1px solid #4caf5055;
+      border: 1px solid rgba(76,175,80,0.33);
       border-radius: 20px;
       padding: 3px 9px;
       margin-left: 8px;
@@ -578,7 +686,7 @@
     }
     .block:active { transform: scale(0.98); }
 
-    /* Active block pulse — left border only */
+    /* Active block pulse  ·  left border only */
     .block.block-active {
       animation: active-border-pulse 2s ease-in-out infinite;
     }
@@ -657,12 +765,12 @@
 
     /* SACRED block override */
     .block.sacred {
-      border: 1px solid #4caf50 !important;
-      border-left: 3px solid #4caf50 !important;
-      box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.2);
+      border: 1px solid var(--accent) !important;
+      border-left: 3px solid var(--accent) !important;
+      box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.15);
     }
     .sacred-tag {
-      color: #4caf50 !important;
+      color: var(--accent) !important;
       font-family: var(--mono);
       font-size: 6px;
       font-weight: 700;
@@ -803,8 +911,8 @@
     .mobile-block.review   { background: var(--review-bg);   border-color: var(--review-border); }
 
     .mobile-block.sacred {
-      border-left: 16px solid #4caf50 !important;
-      box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.2);
+      border-left: 16px solid var(--accent) !important;
+      box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.15);
     }
 
     /* Active mobile block */
@@ -858,7 +966,7 @@
     .mb-tag.study    { background: #240c21; color: var(--study-text); }
     .mb-tag.group    { background: #00221a; color: var(--group-text); }
     .mb-tag.review   { background: #1a1a1a; color: var(--review-text); }
-    .mb-tag.sacred   { background: #0a2010; color: #4caf50; }
+    .mb-tag.sacred   { background: #0a2010; color: var(--accent); }
 
     /* ─── MODAL ──────────────────────────────────────────── */
     .modal-overlay {
@@ -887,6 +995,7 @@
       padding: 20px 24px 32px;
       transform: translateY(100%);
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
     }
     .modal-overlay.open .modal-sheet { transform: translateY(0); }
     .modal-handle {
@@ -907,9 +1016,10 @@
       margin-bottom: 6px;
     }
     .modal-title {
-      font-family: var(--display);
+      font-family: var(--display-hero);
+      font-style: italic;
       font-size: 20px;
-      font-weight: 800;
+      font-weight: 400;
       color: var(--text);
       margin-bottom: 4px;
     }
@@ -932,6 +1042,22 @@
       margin-bottom: 16px;
     }
     .modal-tag svg { width: 10px; height: 10px; }
+    .modal-sacred-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      background: #0a2010;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+    .modal-sacred-badge svg { width: 10px; height: 10px; }
     .modal-meta {
       border-top: 1px solid var(--border);
       padding-top: 14px;
@@ -1010,6 +1136,163 @@
       }
     }
 
+    /* ─── TASKS PANEL ────────────────────────────────────── */
+    .tasks-panel {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 18px 24px 20px;
+    }
+    .tasks-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+    .tasks-panel-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tasks-panel-title svg { width: 12px; height: 12px; color: var(--accent); }
+    .tasks-date-picker {
+      font-family: var(--mono);
+      font-size: 9px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 4px;
+      color: var(--text-muted);
+      padding: 3px 6px;
+      cursor: pointer;
+    }
+    .tasks-date-picker:focus { outline: 1px solid var(--accent); }
+    .task-form {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .task-input {
+      flex: 1;
+      font-family: var(--mono);
+      font-size: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 4px;
+      color: var(--text);
+      padding: 6px 10px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .task-input::placeholder { color: var(--text-dim); }
+    .task-input:focus { border-color: var(--accent); }
+    .task-add-btn {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #0a2010;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      color: var(--accent);
+      padding: 6px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .task-add-btn:hover { background: #0f3018; }
+    .task-add-btn svg { width: 10px; height: 10px; }
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    .task-item.done {
+      opacity: 0.5;
+    }
+    .task-item.done .task-text {
+      text-decoration: line-through;
+      color: var(--text-dim);
+    }
+    .task-item.failed {
+      border-color: #bf360c;
+      opacity: 0.6;
+    }
+    .task-check {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border2);
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .task-item.done .task-check {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .task-check svg { width: 9px; height: 9px; color: #fff; display: none; }
+    .task-item.done .task-check svg { display: block; }
+    .task-text {
+      flex: 1;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text);
+    }
+    .task-state-badge {
+      font-family: var(--mono);
+      font-size: 7px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    .task-state-badge.done   { background: rgba(76,175,80,0.15); color: var(--accent); }
+    .task-state-badge.failed { background: rgba(191,54,12,0.15); color: #ff8a65; }
+    .task-state-badge.today  { background: rgba(76,175,80,0.08); color: var(--text-muted); }
+    .task-state-badge.future { background: transparent; color: var(--text-dim); }
+    .task-delete-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      display: flex; align-items: center;
+      padding: 2px;
+      border-radius: 3px;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .task-delete-btn:hover { color: #ff8a65; background: rgba(191,54,12,0.1); }
+    .task-delete-btn svg { width: 11px; height: 11px; }
+    .tasks-empty {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text-dim);
+      text-align: center;
+      padding: 12px 0;
+      letter-spacing: 0.08em;
+    }
+
     /* ─── FOOTER ─────────────────────────────────────────── */
     .apex-footer {
       display: flex;
@@ -1033,11 +1316,12 @@
       .week-summary { display: none; }
       .timetable-controls { display: none; }
       .mobile-view { display: block; }
-      .apex-header { padding: 14px 16px 12px; }
-      .apex-header .app-title { font-size: 18px; }
+      .apex-header { padding: 0; }
+      .header-meta-pills { display: none !important; }
+      .header-divider { display: none !important; }
       .apex-footer { padding: 8px 16px; }
-      .view-nav { padding: 8px 16px; }
       #nowView { padding: 16px; }
+      .tasks-panel { padding: 14px 16px 16px; }
     }
 
     @media (min-width: 768px) {
@@ -1054,34 +1338,76 @@
 
   <!-- ═══════════════════════════════════════════════════════ HEADER -->
   <header class="apex-header">
-    <div class="institution">University of Ghana &middot; School of Engineering Sciences &middot; CPEN</div>
-    <div class="app-title">APEX &mdash; <span class="accent">Semester OS</span></div>
-    <div class="subtitle">Level 200 &nbsp;&middot;&nbsp; Sem 2 &nbsp;&middot;&nbsp; 2025/2026</div>
-    <hr class="header-sep" />
+
+    <!-- TOP STRIP -->
+    <div class="header-top-strip">
+      <span class="institution-text">University of Ghana &middot; School of Engineering Sciences &middot; CPEN &middot; Level 200 &middot; Sem 2 &middot; 2025/2026</span>
+      <div class="header-active-badge">
+        <div class="live-pulse-dot"></div>
+        Active
+      </div>
+    </div>
+
+    <!-- MAIN ROW -->
+    <div class="header-main-row">
+      <!-- Brand -->
+      <div class="header-brand-group">
+        <div class="header-logo">A</div>
+        <div class="header-brand-text">
+          <div class="header-title">APEX &mdash; <span class="accent">Semester OS</span></div>
+          <div class="header-sub">CPEN &middot; Level 200</div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="header-divider"></div>
+
+      <!-- Meta Pills -->
+      <div class="header-meta-pills">
+        <span class="meta-pill">Romel Lartey</span>
+        <span class="meta-pill">Level 200</span>
+        <span class="meta-pill">Sem 2 &middot; 2025/2026</span>
+        <span class="meta-pill time-pill" id="headerClock">--:--</span>
+      </div>
+
+      <div class="header-spacer"></div>
+
+      <!-- Controls -->
+      <div class="header-controls">
+        <!-- Theme toggle -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">
+          <!-- Moon icon (shown in dark mode) -->
+          <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <!-- Sun icon (shown in light mode, hidden by default) -->
+          <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
+        <!-- View toggle -->
+        <div class="view-nav-pill">
+          <button class="view-nav-btn active" id="navNow" onclick="switchView('now')" aria-label="Now view">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
+            </svg>
+            NOW
+          </button>
+          <button class="view-nav-btn" id="navTimetable" onclick="switchView('timetable')" aria-label="Timetable view">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            TIMETABLE
+          </button>
+        </div>
+      </div>
+    </div>
+
   </header>
 
-  <!-- ═══════════════════════════════════════════════════════ VIEW NAV -->
-  <div class="view-nav">
-    <div class="view-nav-pill">
-      <button class="view-nav-btn active" id="navNow" onclick="switchView('now')" aria-label="Now view">
-        <!-- Lucide Radio icon -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
-        </svg>
-        NOW
-      </button>
-      <button class="view-nav-btn" id="navTimetable" onclick="switchView('timetable')" aria-label="Timetable view">
-        <!-- Lucide Calendar icon -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
-        TIMETABLE
-      </button>
-    </div>
-  </div>
-
   <!-- ═══════════════════════════════════════════════════════ LEGEND -->
-  <div class="legend" id="legendBar" role="complementary" aria-label="Block type legend">
+  <div class="legend hidden" id="legendBar" role="complementary" aria-label="Block type legend">
     <span class="legend-label">Legend:</span>
     <div class="legend-item"><div class="legend-dot" style="background:var(--lecture-border)"></div>Lecture</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--lab-border)"></div>Lab / Tutorial</div>
@@ -1136,95 +1462,131 @@
 
   </main>
 
-  <!-- ═══════�const TIMETABLE = [
+  <!-- ═══════════════════════════════════════════════════════ TASKS PANEL -->
+  <div class="tasks-panel" id="tasksPanel" aria-label="Daily tasks">
+    <div class="tasks-panel-header">
+      <div class="tasks-panel-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Daily Tasks
+        <span id="tasksDateLabel" style="color:var(--text-dim);font-size:8px;"></span>
+      </div>
+      <input type="date" class="tasks-date-picker" id="tasksDatePicker" />
+    </div>
+    <div class="task-form">
+      <input type="text" class="task-input" id="taskInput" placeholder="Add a task for today..." maxlength="120" />
+      <button class="task-add-btn" id="taskAddBtn" onclick="addTask()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add
+      </button>
+    </div>
+    <div class="task-list" id="taskList"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ FOOTER -->
+  <footer class="apex-footer">
+    <span>APEX &mdash; Semester OS &middot; UG CPEN Level 200</span>
+    <span>Sem 2 &middot; 2025/2026</span>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════ MODAL -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Block details">
+    <div class="modal-sheet">
+      <div class="modal-handle" aria-hidden="true"></div>
+      <div class="modal-type-stripe" id="modalStripe"></div>
+      <button class="modal-close" id="modalClose" aria-label="Close">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-time" id="modalTime"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-subtitle" id="modalSubtitle"></div>
+      <div id="modalTagWrap"></div>
+      <div class="modal-meta" id="modalMeta"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ FLOATING NOW BTN -->
+  <button id="floatingNowBtn" onclick="switchView('now')" aria-label="Back to Now view">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49"/>
+    </svg>
+    NOW
+  </button>
+
+</div><!-- #app -->
+
+<script>
+// ══════════════════════════════════════════════════════════════════════
+// DAY NAMES
+// ══════════════════════════════════════════════════════════════════════
+const DAYS     = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const DAY_FULL = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+// JS Sunday=0 → index 6, Monday=0 → index 0, etc.
+const JS_DAY_MAP = {0:6, 1:0, 2:1, 3:2, 4:3, 5:4, 6:5};
+
+// ══════════════════════════════════════════════════════════════════════
+// TIMETABLE DATA (V2 — corrected)
+// ══════════════════════════════════════════════════════════════════════
+const TIMETABLE = [
   // ── MONDAY (index 0)
   [
-    { start:'08:30', end:'10:25', type:'lecture',  title:'CPEN 208',              subtitle:'Software Engineering · SF-F2',                              tag:'LECTURE',  lecturer:'Mr. John Assiamah' },
-    { start:'10:30', end:'13:25', type:'lab',      title:'CPEN 208 LAB',          subtitle:'Software Engineering · Huawei Lab',                         tag:'LAB',      lecturer:'Mr. John Assiamah' },
-    { start:'13:30', end:'15:25', type:'lecture',  title:'SENG 202',              subtitle:'Engineering Mathematics · JQB 09',                          tag:'LECTURE',  lecturer:'Dr. John Kutor' },
-    { start:'16:00', end:'18:00', type:'group',    title:'Study Group',           subtitle:'Post-lecture session',                                      tag:'2HRS',     lecturer:'' },
-    { start:'19:30', end:'20:30', type:'study',    title:'Lecture Review x3',     subtitle:'CPEN 208 · CPEN 208 LAB · SENG 202 — 20 min each',          tag:'REVIEW',   lecturer:'' },
-    { start:'21:00', end:'23:00', type:'backend',  title:'Backend — Deep Work',   subtitle:'Primary build window',                                      tag:'2HRS',     lecturer:'' },
+    { start:'08:30', end:'10:25', type:'lecture',  title:'CPEN 208',                    subtitle:'Software Engineering \u00b7 SF-F2',                               tag:'LECTURE',    lecturer:'Mr. John Assiamah',             sacred:false },
+    { start:'10:30', end:'13:25', type:'lab',      title:'CPEN 208 LAB',                subtitle:'Software Engineering \u00b7 Huawei Lab',                          tag:'LAB',        lecturer:'Mr. John Assiamah',             sacred:false },
+    { start:'13:30', end:'15:25', type:'lecture',  title:'SENG 202',                    subtitle:'Differential Equations \u00b7 JQB 09',                            tag:'LECTURE',    lecturer:'Dr. John Kutor',                sacred:false },
+    { start:'16:00', end:'18:00', type:'group',    title:'Study Group',                 subtitle:'Post-lecture session',                                       tag:'GROUP',      lecturer:'',                              sacred:false },
+    { start:'19:30', end:'20:30', type:'study',    title:'Lecture Review \u00d73',           subtitle:'CPEN 208 \u00b7 CPEN 208 LAB \u00b7 SENG 202 \u2014 20 min each',           tag:'REVIEW',     lecturer:'',                              sacred:false },
+    { start:'21:00', end:'23:00', type:'backend',  title:'Backend \u2014 Deep Work',         subtitle:'Primary build window',                                       tag:'BACKEND',    lecturer:'',                              sacred:false },
   ],
   // ── TUESDAY (index 1)
   [
-    { start:'07:30', end:'09:25', type:'lecture',  title:'CPEN 212',              subtitle:'Data Communications · SF-F2',                               tag:'LECTURE',  lecturer:'Dr. Isaac Adjaye Aboagye' },
-    { start:'09:30', end:'11:25', type:'lecture',  title:'CPEN 204',              subtitle:'Data Structures & Algorithms · EW-S2',                      tag:'LECTURE',  lecturer:'Mrs. Gifty Osei' },
-    { start:'12:30', end:'15:25', type:'lab',      title:'CPEN 204 LAB',          subtitle:'Data Structures & Algorithms · Huawei Lab',                 tag:'LAB',      lecturer:'Mrs. Gifty Osei' },
-    { start:'15:30', end:'17:25', type:'lab',      title:'SENG 202-TUT',          subtitle:'Engineering Mathematics · NNB1',                            tag:'TUTORIAL', lecturer:'Dr. John Kutor' },
-    { start:'19:30', end:'20:30', type:'study',    title:'Lecture Review x3',     subtitle:'CPEN 212 · CPEN 204 · SENG 202 TUT — 20 min each',          tag:'REVIEW',   lecturer:'' },
-    { start:'21:00', end:'23:00', type:'backend',  title:'Backend — Deep Work',   subtitle:'Heaviest day. Protect this window.',                        tag:'2HRS',     lecturer:'' },
+    { start:'07:30', end:'09:25', type:'lecture',  title:'CPEN 212',                    subtitle:'Data Communications \u00b7 SF-F2',                                tag:'LECTURE',    lecturer:'Dr. Isaac Adjaye Aboagye',      sacred:false },
+    { start:'09:30', end:'11:25', type:'lecture',  title:'CPEN 204',                    subtitle:'Data Structures & Algorithms \u00b7 EW-S2',                       tag:'LECTURE',    lecturer:'Mrs. Gifty Osei',               sacred:false },
+    { start:'12:30', end:'15:25', type:'lab',      title:'CPEN 204 LAB',                subtitle:'Data Structures & Algorithms \u00b7 Huawei Lab',                  tag:'LAB',        lecturer:'Mrs. Gifty Osei',               sacred:false },
+    { start:'15:30', end:'17:25', type:'lab',      title:'SENG 202 TUT',                subtitle:'Differential Equations \u00b7 NNB1',                              tag:'TUTORIAL',   lecturer:'Dr. John Kutor',                sacred:false },
+    { start:'19:30', end:'20:30', type:'study',    title:'Lecture Review \u00d73',           subtitle:'CPEN 212 \u00b7 CPEN 204 \u00b7 SENG 202 TUT \u2014 20 min each',           tag:'REVIEW',     lecturer:'',                              sacred:false },
+    { start:'21:00', end:'23:00', type:'backend',  title:'Backend \u2014 Deep Work',         subtitle:'Heaviest day. Protect this window.',                         tag:'BACKEND',    lecturer:'',                              sacred:false },
   ],
   // ── WEDNESDAY (index 2)
   [
-    { start:'07:30', end:'09:25', type:'lecture',  title:'CPEN 202',              subtitle:'Computer Systems Design · SF-F2',                           tag:'LECTURE',  lecturer:'Mr. Agyare Debra' },
-    { start:'09:30', end:'11:25', type:'lecture',  title:'CBAS 210',              subtitle:'Academic Writing II · JQB22',                               tag:'LECTURE',  lecturer:'Dr. Magaret Ansah Richardson' },
-    { start:'12:30', end:'15:25', type:'lab',      title:'CPEN 212 LAB',          subtitle:'Data Communications · Electronics Lab',                     tag:'LAB',      lecturer:'Dr. Isaac Adjaye Aboagye' },
-    { start:'15:30', end:'17:25', type:'lab',      title:'CPEN 206 LAB',          subtitle:'Linear Circuits · Electronics Lab',                         tag:'LAB',      lecturer:'Dr. Percy Okae' },
-    { start:'19:30', end:'20:00', type:'study',    title:'Lecture Review x2',     subtitle:'CPEN 202 · CBAS 210 — 20 min each',                         tag:'REVIEW',   lecturer:'' },
-    { start:'20:00', end:'22:00', type:'ml',       title:'ML Consolidation',      subtitle:'NotebookLM · Quiz gaps · Review notes',                     tag:'NOTEBOOKLM', lecturer:'' },
+    { start:'07:30', end:'09:25', type:'lecture',  title:'CPEN 202',                    subtitle:'Computer Systems Design \u00b7 SF-F2',                            tag:'LECTURE',    lecturer:'Mr. Agyare Debra',              sacred:false },
+    { start:'09:30', end:'11:25', type:'lecture',  title:'CBAS 210',                    subtitle:'Academic Writing II \u00b7 JQB 22',                               tag:'LECTURE',    lecturer:'Dr. Magaret Ansah Richardson',  sacred:false },
+    { start:'12:30', end:'15:25', type:'lab',      title:'CPEN 212 LAB',                subtitle:'Data Communications \u00b7 Electronics Lab',                      tag:'LAB',        lecturer:'Dr. Isaac Adjaye Aboagye',      sacred:false },
+    { start:'15:30', end:'17:25', type:'lab',      title:'CPEN 206 LAB',                subtitle:'Linear Circuits \u00b7 Electronics Lab',                          tag:'LAB',        lecturer:'Dr. Percy Okae',                sacred:false },
+    { start:'19:30', end:'20:00', type:'study',    title:'Lecture Review \u00d72',           subtitle:'CPEN 202 \u00b7 CBAS 210 \u2014 20 min each',                          tag:'REVIEW',     lecturer:'',                              sacred:false },
+    { start:'20:00', end:'22:00', type:'ml',       title:'ML Consolidation',            subtitle:'NotebookLM \u00b7 Quiz gaps \u00b7 Review notes',                      tag:'ML',         lecturer:'',                              sacred:false },
   ],
   // ── THURSDAY (index 3)
   [
-    { start:'09:30', end:'11:25', type:'lecture',  title:'CPEN 206',              subtitle:'Linear Circuits · WW-S3',                                  tag:'LECTURE',  lecturer:'Dr. Percy Okae' },
-    { start:'11:30', end:'13:25', type:'lab',      title:'SENG 202-Lab',          subtitle:'Engineering Mathematics · JQB14',                          tag:'LAB',      lecturer:'Dr. John Kutor' },
-    { start:'14:00', end:'16:00', type:'group',    title:'Study Group',           subtitle:'Post-lecture session',                                     tag:'2HRS',     lecturer:'' },
-    { start:'19:30', end:'20:30', type:'study',    title:'Lecture Review x2',     subtitle:'CPEN 206 · SENG 202 LAB — 20 min each',                    tag:'REVIEW',   lecturer:'' },
-    { start:'21:00', end:'23:00', type:'backend',  title:'Backend — Deep Work',   subtitle:'Biggest session of the week',                              tag:'2HRS',     lecturer:'' },
+    { start:'09:30', end:'11:25', type:'lecture',  title:'CPEN 206',                    subtitle:'Linear Circuits \u00b7 WW-S3',                                    tag:'LECTURE',    lecturer:'Dr. Percy Okae',                sacred:false },
+    { start:'11:30', end:'13:25', type:'lab',      title:'SENG 202 LAB',                subtitle:'Differential Equations \u00b7 JQB 14',                            tag:'LAB',        lecturer:'Dr. John Kutor',                sacred:false },
+    { start:'14:00', end:'16:00', type:'group',    title:'Study Group',                 subtitle:'Post-lecture session',                                       tag:'GROUP',      lecturer:'',                              sacred:false },
+    { start:'19:30', end:'20:30', type:'study',    title:'Lecture Review \u00d72',           subtitle:'CPEN 206 \u00b7 SENG 202 LAB \u2014 20 min each',                      tag:'REVIEW',     lecturer:'',                              sacred:false },
+    { start:'21:00', end:'23:00', type:'backend',  title:'Backend \u2014 Deep Work',         subtitle:'Biggest session of the week',                                tag:'BACKEND',    lecturer:'',                              sacred:false },
   ],
   // ── FRIDAY (index 4)
   [
-    { start:'09:00', end:'11:00', type:'backend',  title:'Backend — Morning Session', subtitle:'No lectures. Fresh mind. Best focus.',               tag:'2HRS',     lecturer:'' },
-    { start:'12:00', end:'13:30', type:'group',    title:'Study Group',           subtitle:'Time TBC',                                                 tag:'TBC',      lecturer:'' },
-    { start:'13:30', end:'15:25', type:'lab',      title:'CPEN 202 LAB',          subtitle:'Computer Systems Design · Electronics Lab',                 tag:'LAB',      lecturer:'Mr. Agyare Debra' },
-    { start:'15:30', end:'17:00', type:'robotics', title:'ESP32 — Competition Prep', subtitle:'Ghana Robotics Competition · Daily reps',             tag:'COMP',     lecturer:'' },
-    { start:'17:00', end:'19:00', type:'ml',       title:'ML Session',            subtitle:'Weekly meeting',                                           tag:'MEETING',  lecturer:'' },
-    { start:'20:00', end:'22:00', type:'ml',       title:'ML Consolidation',      subtitle:'NotebookLM · Apply to backend context',                    tag:'NOTEBOOKLM', lecturer:'' },
+    { start:'09:00', end:'11:00', type:'backend',  title:'Backend \u2014 Morning Session',   subtitle:'No lectures. Fresh mind. Best focus.',                       tag:'BACKEND',    lecturer:'',                              sacred:false },
+    { start:'12:00', end:'14:00', type:'group',    title:'Study Group',                 subtitle:'Time TBC',                                                   tag:'GROUP',      lecturer:'',                              sacred:false },
+    { start:'13:30', end:'15:25', type:'lab',      title:'CPEN 202 LAB',                subtitle:'Computer Systems Design \u00b7 Electronics Lab',                  tag:'LAB',        lecturer:'Mr. Agyare Debra',              sacred:false },
+    { start:'15:00', end:'17:00', type:'ml',       title:'ML Session',                  subtitle:'Weekly meeting',                                             tag:'MEETING',    lecturer:'',                              sacred:false },
+    { start:'20:00', end:'22:00', type:'ml',       title:'ML Consolidation',            subtitle:'NotebookLM \u00b7 Apply to backend context',                      tag:'ML',         lecturer:'',                              sacred:false },
   ],
   // ── SATURDAY (index 5)
   [
-    { start:'10:00', end:'13:00', type:'backend',  title:'Backend Sprint',        subtitle:'SACRED — nothing moves this. Ever.',                        tag:'SACRED',   lecturer:'', sacred: true },
-    { start:'14:00', end:'17:00', type:'study',    title:'Personal Study',        subtitle:'Deep block · Past questions · CPEN 204 + SENG 202 priority', tag:'3HRS',    lecturer:'' },
-    { start:'15:00', end:'17:00', type:'ml',       title:'ML Session',            subtitle:'Weekly meeting',                                           tag:'MEETING',  lecturer:'' },
-    { start:'17:30', end:'18:30', type:'ml',       title:'ML Self-Study',         subtitle:'NumPy · Pandas · Course materials',                        tag:'SELF',     lecturer:'' },
-    { start:'19:30', end:'21:00', type:'robotics', title:'Arduino Bootcamp',      subtitle:'Evening session',                                          tag:'EMBEDDED', lecturer:'' },
-    { start:'21:00', end:'23:00', type:'review',   title:'Rest',                  subtitle:'Earned. Take it fully.',                                   tag:'REST',     lecturer:'' },
+    { start:'10:00', end:'13:00', type:'backend',  title:'Backend Sprint',              subtitle:'SACRED \u2014 nothing moves this. Ever.',                         tag:'SACRED',     lecturer:'',                              sacred:true  },
+    { start:'14:00', end:'17:00', type:'study',    title:'Personal Study',              subtitle:'Deep block \u00b7 Past questions \u00b7 CPEN 204 + SENG 202 priority', tag:'3HRS',       lecturer:'',                              sacred:false },
+    { start:'15:00', end:'17:00', type:'ml',       title:'ML Session',                  subtitle:'Weekly meeting',                                             tag:'MEETING',    lecturer:'',                              sacred:false },
+    { start:'17:30', end:'18:30', type:'ml',       title:'ML Self-Study',               subtitle:'NumPy \u00b7 Pandas \u00b7 Course materials',                          tag:'SELF',       lecturer:'',                              sacred:false },
+    { start:'19:30', end:'21:00', type:'robotics', title:'Arduino Bootcamp',            subtitle:'Evening session',                                            tag:'BOOTCAMP',   lecturer:'',                              sacred:false },
+    { start:'21:00', end:'23:00', type:'review',   title:'Rest',                        subtitle:'Earned. Take it fully.',                                     tag:'REST',       lecturer:'',                              sacred:false },
   ],
   // ── SUNDAY (index 6)
   [
-    { start:'10:00', end:'13:00', type:'study',    title:'Personal Study',        subtitle:'Remaining subjects · Weak areas from the week',             tag:'3HRS',     lecturer:'' },
-    { start:'14:00', end:'16:00', type:'backend',  title:'Backend — Weekend Session 2', subtitle:'Overflow · Debug · GitHub push',                  tag:'2HRS',     lecturer:'' },
-    { start:'19:30', end:'21:00', type:'robotics', title:'Arduino Bootcamp',      subtitle:'Evening session',                                          tag:'EMBEDDED', lecturer:'' },
-    { start:'20:00', end:'21:00', type:'review',   title:'Weekly Review',         subtitle:'What shipped vs planned? GPA risks?',                      tag:'REVIEW',   lecturer:'' },
-    { start:'21:00', end:'22:00', type:'review',   title:'Next Week Planning',    subtitle:'One backend target · One subject focus',                   tag:'PLAN',     lecturer:'' },
-  ],
-];k',subtitle:'Biggest session of the week',                              tag:'2HRS',     lecturer:'' },
-  ],
-  // ── FRIDAY (index 4)
-  [
-    { start:'09:00', end:'11:00', type:'backend',  title:'Backend — Morning Session', subtitle:'No lectures. Fresh mind. Best focus.',               tag:'2HRS',     lecturer:'' },
-    { start:'12:00', end:'14:00', type:'group',    title:'Study Group',        subtitle:'Time TBC',                                                 tag:'TBC',      lecturer:'' },
-    { start:'12:30', end:'15:25', type:'lab',      title:'CPEN 202 LAB',       subtitle:'Computer Systems Design · Electronics Lab',                 tag:'LAB',      lecturer:'Mr. Agyare Debra' },
-    { start:'14:30', end:'15:30', type:'robotics', title:'ESP32 — Competition Prep', subtitle:'Ghana Robotics Competition · Daily reps',             tag:'COMP',     lecturer:'' },
-    { start:'15:00', end:'17:00', type:'ml',       title:'ML Session',         subtitle:'Weekly meeting',                                           tag:'MEETING',  lecturer:'' },
-    { start:'20:00', end:'22:00', type:'ml',       title:'ML Consolidation',   subtitle:'NotebookLM · Apply to backend context',                    tag:'NOTEBOOKLM', lecturer:'' },
-  ],
-  // ── SATURDAY (index 5)
-  [
-    { start:'10:00', end:'13:00', type:'backend',  title:'Backend Sprint',     subtitle:'SACRED — nothing moves this. Ever.',                        tag:'SACRED',   lecturer:'', sacred: true },
-    { start:'14:00', end:'17:00', type:'study',    title:'Personal Study',     subtitle:'Deep block · Past questions · CPEN 204 + SENG 202 priority', tag:'3HRS',    lecturer:'' },
-    { start:'15:00', end:'17:00', type:'ml',       title:'ML Session',         subtitle:'Weekly meeting',                                           tag:'MEETING',  lecturer:'' },
-    { start:'17:30', end:'18:30', type:'ml',       title:'ML Self-Study',      subtitle:'NumPy · Pandas · Course materials',                        tag:'SELF',     lecturer:'' },
-    { start:'19:30', end:'21:00', type:'robotics', title:'Arduino Bootcamp',   subtitle:'Evening session',                                          tag:'EMBEDDED', lecturer:'' },
-    { start:'21:00', end:'23:00', type:'review',   title:'Rest',               subtitle:'Earned. Take it fully.',                                   tag:'REST',     lecturer:'' },
-  ],
-  // ── SUNDAY (index 6)
-  [
-    { start:'10:00', end:'13:00', type:'study',    title:'Personal Study',     subtitle:'Remaining subjects · Weak areas from the week',             tag:'3HRS',     lecturer:'' },
-    { start:'14:00', end:'16:00', type:'backend',  title:'Backend — Weekend Session 2', subtitle:'Overflow · Debug · GitHub push',                  tag:'2HRS',     lecturer:'' },
-    { start:'19:30', end:'21:00', type:'robotics', title:'Arduino Bootcamp',   subtitle:'Evening session',                                          tag:'EMBEDDED', lecturer:'' },
-    { start:'20:00', end:'21:00', type:'review',   title:'Weekly Review',      subtitle:'What shipped vs planned? GPA risks?',                      tag:'REVIEW',   lecturer:'' },
-    { start:'21:00', end:'22:00', type:'review',   title:'Next Week Planning', subtitle:'One backend target · One subject focus',                   tag:'PLAN',     lecturer:'' },
+    { start:'10:00', end:'13:00', type:'study',    title:'Personal Study',              subtitle:'Remaining subjects \u00b7 Weak areas from the week',              tag:'3HRS',       lecturer:'',                              sacred:false },
+    { start:'14:00', end:'16:00', type:'backend',  title:'Backend \u2014 Weekend Session 2', subtitle:'Overflow \u00b7 Debug \u00b7 GitHub push',                             tag:'2HRS',       lecturer:'',                              sacred:false },
+    { start:'19:30', end:'21:00', type:'robotics', title:'Arduino Bootcamp',            subtitle:'Evening session',                                            tag:'BOOTCAMP',   lecturer:'',                              sacred:false },
+    { start:'20:00', end:'21:00', type:'review',   title:'Weekly Review',               subtitle:'What shipped vs planned? GPA risks?',                        tag:'REVIEW',     lecturer:'',                              sacred:false },
+    { start:'21:00', end:'22:00', type:'review',   title:'Next Week Planning',          subtitle:'One backend target \u00b7 One subject focus',                    tag:'PLAN',       lecturer:'',                              sacred:false },
   ],
 ];
 
@@ -1248,7 +1610,7 @@ function blockHeight(startStr, endStr) {
 }
 
 function formatRange(start, end) {
-  return `${start} – ${end}`;
+  return `${start}  \u00b7  ${end}`;
 }
 
 function durationLabel(start, end) {
@@ -1296,6 +1658,10 @@ const CAT_ICONS = {
 const SACRED_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
 const ARROW_RIGHT_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
 const CLOCK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+const LOCK_ICON = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
+const CHECK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+const PLUS_ICON  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+const TRASH_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
 
 // ══════════════════════════════════════════════════════════════════════
 // CURRENT DAY/TIME HELPERS
@@ -1319,6 +1685,36 @@ function formatTime(min) {
 function formatCurrentTime() {
   const now = new Date();
   return `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// THEME TOGGLE
+// ══════════════════════════════════════════════════════════════════════
+function toggleTheme() {
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
+  localStorage.setItem('apex-theme', isLight ? 'dark' : 'light');
+  updateThemeIcon();
+}
+
+function updateThemeIcon() {
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  document.getElementById('iconMoon').style.display = isLight ? 'none' : '';
+  document.getElementById('iconSun').style.display  = isLight ? '' : 'none';
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('apex-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  updateThemeIcon();
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// CLOCK
+// ══════════════════════════════════════════════════════════════════════
+function updateClock() {
+  const el = document.getElementById('headerClock');
+  if (el) el.textContent = formatCurrentTime();
 }
 
 // ══════════════════════════════════════════════════════════════════════
@@ -1359,7 +1755,7 @@ function getNextBlock() {
   return null;
 }
 
-// Returns 0–100 progress through current block
+// Returns 0-100 progress through current block
 function progressPercent(block) {
   const nowMin   = getCurrentMinutes();
   const start    = timeToMin(block.start);
@@ -1389,7 +1785,7 @@ function renderNowView() {
   const current   = getCurrentBlock();
   const next      = getNextBlock();
 
-  let html = `<div class="now-live-label"><div class="now-live-dot"></div>Live · ${formatCurrentTime()}</div>`;
+  let html = `<div class="now-live-label"><div class="now-live-dot"></div>Live <svg class="sep-icon" viewBox="0 0 6 6" fill="currentColor"><circle cx="3" cy="3" r="2"/></svg> ${formatCurrentTime()}</div>`;
 
   if (current) {
     const pct      = progressPercent(current);
@@ -1401,7 +1797,7 @@ function renderNowView() {
 
     html += `
       <div class="now-card${isSacred ? ' sacred-card' : ''}">
-        <div class="now-card-accent-strip" style="background:${isSacred ? '#4caf50' : (TYPE_COLORS[current.type] || '#333')}"></div>
+        <div class="now-card-accent-strip" style="background:${isSacred ? 'var(--accent)' : (TYPE_COLORS[current.type] || '#333')}"></div>
         <div class="now-card-inner">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
             <span class="now-category-pill" style="background:${pillStyle.bg};color:${pillStyle.color};">
@@ -1413,7 +1809,7 @@ function renderNowView() {
           <div class="now-subtitle">${current.subtitle}</div>
           <div class="now-time-range">${CLOCK_ICON}${formatRange(current.start, current.end)}</div>
           <div class="now-progress-bar-wrap">
-            <div class="now-progress-bar-fill" style="width:${pct}%;background:${isSacred ? '#4caf50' : (TYPE_COLORS[current.type] || 'var(--accent)')}"></div>
+            <div class="now-progress-bar-fill" style="width:${pct}%;background:${isSacred ? 'var(--accent)' : (TYPE_COLORS[current.type] || 'var(--accent)')}"></div>
           </div>
           <div class="now-progress-meta">
             <span>${minsLeft} min remaining</span>
@@ -1427,7 +1823,7 @@ function renderNowView() {
     html += `
       <div class="now-free-card">
         <div class="now-free-label">No active session</div>
-        <div class="now-free-time">Free block · ${formatCurrentTime()}</div>
+        <div class="now-free-time">Free block <svg class="sep-icon" viewBox="0 0 6 6" fill="currentColor"><circle cx="3" cy="3" r="2"/></svg> ${formatCurrentTime()}</div>
     `;
     if (next) {
       const minsUntil = minutesUntilStart(next);
@@ -1435,7 +1831,7 @@ function renderNowView() {
       html += `
         <div class="now-next-label">Next up</div>
         <div class="now-next-title">${next.title}</div>
-        <div class="now-next-sub">${minsUntil > 0 ? `Starts in ${minsUntil} min · at ${next.start}${dayLabel}` : `at ${next.start}${dayLabel}`}</div>
+        <div class="now-next-sub">${minsUntil > 0 ? `Starts in ${minsUntil} min <svg class="sep-icon" viewBox="0 0 6 6" fill="currentColor"><circle cx="3" cy="3" r="2"/></svg> at ${next.start}${dayLabel}` : `at ${next.start}${dayLabel}`}</div>
       `;
     }
     html += `</div>`;
@@ -1495,7 +1891,6 @@ function setTimetableMode(mode) {
   timetableMode = mode;
   document.getElementById('modeUniversity').classList.toggle('active', mode === 'university');
   document.getElementById('modeFullWeek').classList.toggle('active',   mode === 'fullweek');
-  // Rebuild timetable views with filter
   rebuildTimetable();
 }
 
@@ -1515,20 +1910,18 @@ function openModal(block) {
   document.getElementById('modalTitle').textContent    = block.title;
   document.getElementById('modalSubtitle').textContent = block.subtitle;
 
-  const tagEl = document.getElementById('modalTag');
+  const tagWrap = document.getElementById('modalTagWrap');
   if (block.sacred) {
-    tagEl.innerHTML = `${SACRED_ICON} SACRED`;
-    tagEl.style.background = '#0a2010';
-    tagEl.style.color = '#4caf50';
+    tagWrap.innerHTML = `<div class="modal-sacred-badge">${SACRED_ICON} SACRED</div>`;
   } else {
-    tagEl.textContent = block.tag;
-    tagEl.style.background = '';
-    tagEl.style.color = '';
+    const typeClass = block.type;
+    // Build tag with type color
+    const pillStyle = CAT_PILL_STYLES[typeClass] || { bg: '#1a1a1a', color: '#888' };
+    tagWrap.innerHTML = `<span class="modal-tag" style="background:${pillStyle.bg};color:${pillStyle.color};">${block.tag}</span>`;
   }
-  tagEl.className = `modal-tag ${block.type}`;
 
   document.getElementById('modalStripe').style.background =
-    block.sacred ? '#4caf50' : (TYPE_COLORS[block.type] || '#333');
+    block.sacred ? 'var(--accent)' : (TYPE_COLORS[block.type] || '#333');
 
   const dur    = durationLabel(block.start, block.end);
   const dayIdx = block._dayIdx !== undefined ? block._dayIdx : '';
@@ -1682,7 +2075,6 @@ function updateDesktopNowLine() {
 
 function updateActiveBlockHighlights() {
   if (currentView !== 'timetable') return;
-  // Re-render the desktop grid to reflect current active block
   buildDesktopGrid();
   buildMobileView();
 }
@@ -1782,7 +2174,7 @@ function updateMobileNowBanner(dayIdx) {
   if (dayIdx === todayIdx) {
     const nowMin = getCurrentMinutes();
     if (nowMin >= START_MIN && nowMin <= START_MIN + 960) {
-      bannerText.textContent = `NOW — ${formatTime(nowMin)}`;
+      bannerText.textContent = `NOW  \u00b7  ${formatTime(nowMin)}`;
       banner.classList.add('visible');
       return;
     }
@@ -1830,19 +2222,159 @@ function rebuildTimetable() {
 }
 
 // ══════════════════════════════════════════════════════════════════════
+// TASKS PANEL
+// ══════════════════════════════════════════════════════════════════════
+const TASKS_KEY = 'apex-daily-tasks-v1';
+
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function selectedTaskDate() {
+  const picker = document.getElementById('tasksDatePicker');
+  return picker ? picker.value : todayStr();
+}
+
+function taskDayName(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+}
+
+function loadTasks() {
+  try {
+    return JSON.parse(localStorage.getItem(TASKS_KEY) || '{}');
+  } catch { return {}; }
+}
+
+function saveTasks(data) {
+  localStorage.setItem(TASKS_KEY, JSON.stringify(data));
+}
+
+function taskState(task, dateStr) {
+  const today = todayStr();
+  if (task.done) return 'done';
+  if (dateStr < today) return 'failed';
+  if (dateStr === today) return 'today';
+  return 'future';
+}
+
+function renderTasks() {
+  const dateStr  = selectedTaskDate();
+  const allTasks = loadTasks();
+  const dayTasks = allTasks[dateStr] || [];
+  const listEl   = document.getElementById('taskList');
+  const labelEl  = document.getElementById('tasksDateLabel');
+
+  if (labelEl) labelEl.textContent = taskDayName(dateStr);
+
+  // Auto-fail past uncompleted tasks (silently update)
+  const today = todayStr();
+  let changed = false;
+  Object.keys(allTasks).forEach(d => {
+    if (d < today) {
+      allTasks[d].forEach(t => {
+        if (!t.done && !t.failed) { t.failed = true; changed = true; }
+      });
+    }
+  });
+  if (changed) saveTasks(allTasks);
+
+  if (!listEl) return;
+
+  if (dayTasks.length === 0) {
+    listEl.innerHTML = `<div class="tasks-empty">No tasks for ${taskDayName(dateStr) || dateStr}</div>`;
+    return;
+  }
+
+  listEl.innerHTML = dayTasks.map((task, i) => {
+    const state = taskState(task, dateStr);
+    const stateLabel = state === 'done' ? 'DONE' : state === 'failed' ? 'FAIL' : '';
+    return `
+      <div class="task-item ${task.done ? 'done' : ''} ${task.failed && !task.done ? 'failed' : ''}" id="task-item-${i}">
+        <button class="task-check" onclick="toggleTask(${i})" aria-label="Toggle task done" title="Toggle complete">
+          ${CHECK_ICON}
+        </button>
+        <span class="task-text">${escHtml(task.text)}</span>
+        ${stateLabel ? `<span class="task-state-badge ${state}">${stateLabel}</span>` : ''}
+        <button class="task-delete-btn" onclick="deleteTask(${i})" aria-label="Delete task" title="Delete">
+          ${TRASH_ICON}
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function addTask() {
+  const input   = document.getElementById('taskInput');
+  const text    = (input.value || '').trim();
+  if (!text) { input.focus(); return; }
+
+  const dateStr  = selectedTaskDate();
+  const allTasks = loadTasks();
+  if (!allTasks[dateStr]) allTasks[dateStr] = [];
+  allTasks[dateStr].push({ text, done: false, failed: false, created: Date.now() });
+  saveTasks(allTasks);
+  input.value = '';
+  renderTasks();
+  input.focus();
+}
+
+function toggleTask(idx) {
+  const dateStr  = selectedTaskDate();
+  const allTasks = loadTasks();
+  if (!allTasks[dateStr] || !allTasks[dateStr][idx]) return;
+  allTasks[dateStr][idx].done = !allTasks[dateStr][idx].done;
+  if (allTasks[dateStr][idx].done) allTasks[dateStr][idx].failed = false;
+  saveTasks(allTasks);
+  renderTasks();
+}
+
+function deleteTask(idx) {
+  const dateStr  = selectedTaskDate();
+  const allTasks = loadTasks();
+  if (!allTasks[dateStr]) return;
+  allTasks[dateStr].splice(idx, 1);
+  saveTasks(allTasks);
+  renderTasks();
+}
+
+function initTasks() {
+  const picker = document.getElementById('tasksDatePicker');
+  if (picker) {
+    picker.value = todayStr();
+    picker.addEventListener('change', renderTasks);
+  }
+  const input = document.getElementById('taskInput');
+  if (input) {
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addTask(); });
+  }
+  renderTasks();
+}
+
+// ══════════════════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════════════════
 (function init() {
+  initTheme();
+  updateClock();
   buildTimeAxis();
   buildDesktopGrid();
   buildMobileView();
   buildWeekSummary();
   renderNowView(); // Default view
+  initTasks();
 
   // Auto-refresh every 60 seconds
   const ticker = setInterval(() => {
     renderNowView();
     updateDesktopNowLine();
+    updateClock();
     const todayIdx = getTodayIndex();
     updateMobileNowBanner(todayIdx);
     updateActiveBlockHighlights();

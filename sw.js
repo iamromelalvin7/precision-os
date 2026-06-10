@@ -1,9 +1,9 @@
-const CACHE_NAME = 'apex-os-v1';
+const CACHE_NAME = 'apex-os-v2';
 const CACHE_URLS = [
   '/',
   '/index.html',
   '/manifest.json',
-  'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap'
+  'https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap'
 ];
 
 self.addEventListener('install', (event) => {

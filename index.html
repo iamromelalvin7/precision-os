@@ -1435,8 +1435,8 @@
       <!-- ── MODE TOGGLE ── -->
       <div class="timetable-controls">
         <div class="mode-toggle" role="group" aria-label="Schedule mode">
-          <button class="mode-btn active" id="modeUniversity" onclick="setTimetableMode('university')">University</button>
-          <button class="mode-btn" id="modeFullWeek" onclick="setTimetableMode('fullweek')">Full Week</button>
+          <button class="mode-btn" id="modeUniversity" onclick="setTimetableMode('university')">University</button>
+          <button class="mode-btn active" id="modeFullWeek" onclick="setTimetableMode('fullweek')">Full Week</button>
         </div>
       </div>
 
@@ -1885,7 +1885,7 @@ function switchView(view) {
 // ══════════════════════════════════════════════════════════════════════
 // TIMETABLE MODE (University / Full Week)
 // ══════════════════════════════════════════════════════════════════════
-let timetableMode = 'university'; // 'university' | 'fullweek'
+let timetableMode = 'fullweek'; // 'university' | 'fullweek'
 
 function setTimetableMode(mode) {
   timetableMode = mode;

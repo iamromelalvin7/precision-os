@@ -1367,7 +1367,9 @@
       .header-brand-text { min-width: 0; overflow: hidden; }
       .header-logo { width: 28px; height: 28px; font-size: 15px; border-radius: 6px; flex-shrink: 0; }
       .header-title { font-size: 15px; white-space: nowrap; }
-      .brand-prefix { display: none; } /* hide "PRECISION — " on narrow screens */
+      /* Nav pill: icon-only on mobile — frees space for full brand title */
+      .nav-label { display: none; }
+      .view-nav-btn { padding: 7px 10px; }
       .header-sub { display: none; }
       .header-meta-pills { display: none !important; }
       .header-divider { display: none !important; }
@@ -1527,13 +1529,13 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
             </svg>
-            NOW
+            <span class="nav-label">NOW</span>
           </button>
           <button class="view-nav-btn" id="navTimetable" onclick="switchView('timetable')" aria-label="Timetable view">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
             </svg>
-            TIMETABLE
+            <span class="nav-label">TIMETABLE</span>
           </button>
         </div>
       </div>

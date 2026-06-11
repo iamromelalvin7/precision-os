@@ -1366,7 +1366,8 @@
       .header-brand-group { flex-shrink: 1; min-width: 0; }
       .header-brand-text { min-width: 0; overflow: hidden; }
       .header-logo { width: 28px; height: 28px; font-size: 15px; border-radius: 6px; flex-shrink: 0; }
-      .header-title { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .header-title { font-size: 15px; white-space: nowrap; }
+      .brand-prefix { display: none; } /* hide "PRECISION — " on narrow screens */
       .header-sub { display: none; }
       .header-meta-pills { display: none !important; }
       .header-divider { display: none !important; }
@@ -1488,7 +1489,7 @@
       <div class="header-brand-group">
         <div class="header-logo">P</div>
         <div class="header-brand-text">
-          <div class="header-title">PRECISION &mdash; <span class="accent">Semester OS</span></div>
+          <div class="header-title"><span class="brand-prefix">PRECISION &mdash; </span><span class="accent">Semester OS</span></div>
           <div class="header-sub">MTEN/SENG &middot; Level 200</div>
         </div>
       </div>

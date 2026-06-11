@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#080808" />
-  <meta name="description" content="PRECISION Semester OS  ·  Semester schedule dashboard for Romel Lartey  ·  UG CPEN Level 200" />
+  <meta name="description" content="PRECISION Semester OS  ·  Semester schedule dashboard for Romel Lartey  ·  UG MTEN/SENG Level 200" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="manifest.json" />
@@ -50,9 +50,9 @@
       --axis-width: 52px;
       --col-min: 120px;
       --px-per-min: 1.4;
-      --start-min: 420; /* 07:00 = 420 minutes from midnight */
-      --total-min: 960; /* 07:00–23:00 = 16 hours = 960 min */
-      --grid-height: calc(960 * 1.4px); /* 1344px */
+      --start-min: 300; /* 05:00 = 300 minutes from midnight */
+      --total-min: 1260; /* 05:00–26:00 = 21 hours = 1260 min */
+      --grid-height: calc(1260 * 1.4px); /* 1764px */
     }
 
     /* ─── LIGHT THEME OVERRIDES ───────────────────────────── */
@@ -1371,7 +1371,7 @@
 
     <!-- TOP STRIP -->
     <div class="header-top-strip">
-      <span class="institution-text">University of Ghana &middot; School of Engineering Sciences &middot; CPEN &middot; Level 200 &middot; Sem 2 &middot; 2025/2026</span>
+      <span class="institution-text">University of Ghana &middot; Materials Engineering &middot; MTEN/SENG &middot; Level 200 &middot; Sem 2 &middot; 2025/2026</span>
       <div class="header-active-badge">
         <div class="live-pulse-dot"></div>
         Active
@@ -1382,10 +1382,10 @@
     <div class="header-main-row">
       <!-- Brand -->
       <div class="header-brand-group">
-        <div class="header-logo">A</div>
+        <div class="header-logo">P</div>
         <div class="header-brand-text">
           <div class="header-title">PRECISION &mdash; <span class="accent">Semester OS</span></div>
-          <div class="header-sub">CPEN &middot; Level 200</div>
+          <div class="header-sub">MTEN/SENG &middot; Level 200</div>
         </div>
       </div>
 
@@ -1395,7 +1395,7 @@
       <!-- Meta Pills -->
       <div class="header-meta-pills">
         <span class="meta-pill">Romel Lartey</span>
-        <span class="meta-pill">Level 200</span>
+        <span class="meta-pill">MTEN/SENG L200</span>
         <span class="meta-pill">Sem 2 &middot; 2025/2026</span>
         <span class="meta-pill time-pill" id="headerClock">--:--</span>
       </div>
@@ -1439,14 +1439,12 @@
   <!-- ═══════════════════════════════════════════════════════ LEGEND -->
   <div class="legend hidden" id="legendBar" role="complementary" aria-label="Block type legend">
     <span class="legend-label">Legend:</span>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--lecture-border)"></div>Lecture</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--lecture-border)"></div>Class</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--lab-border)"></div>Lab / Tutorial</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--backend-border)"></div>Backend</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--ml-border)"></div>ML</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--robotics-border)"></div>Robotics</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--study-border)"></div>Study</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--group-border)"></div>Group</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--review-border)"></div>Review / Rest</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--study-border)"></div>Self-Study</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--ml-border)"></div>Data Analytics</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--review-border)"></div>Rest / Leisure</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Sacred Focus</div>
   </div>
 
   <main class="main-content">
@@ -1514,7 +1512,7 @@
 
   <!-- ═══════════════════════════════════════════════════════ FOOTER -->
   <footer class="precision-footer">
-    <span>PRECISION &mdash; Semester OS &middot; UG CPEN Level 200</span>
+    <span>PRECISION &mdash; Semester OS &middot; UG MTEN Level 200</span>
     <span>Sem 2 &middot; 2025/2026</span>
   </footer>
 
@@ -1555,51 +1553,53 @@ const DAY_FULL = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday',
 const JS_DAY_MAP = {0:6, 1:0, 2:1, 3:2, 4:3, 5:4, 6:5};
 
 // ══════════════════════════════════════════════════════════════════════
-// TIMETABLE DATA (V2 — corrected)
+// TIMETABLE DATA — Romel Lartey · MTEN/SENG Level 200 Sem 2 2025/2026
 // ══════════════════════════════════════════════════════════════════════
 const TIMETABLE = [
   // ── MONDAY (index 0)
   [
-    { start:'08:30', end:'10:25', type:'lecture',  title:'CPEN 208',                    subtitle:'Software Engineering \u00b7 SF-F2',                               tag:'LECTURE',    lecturer:'Mr. John Assiamah',             sacred:false },
-    { start:'10:30', end:'13:25', type:'lab',      title:'CPEN 208 LAB',                subtitle:'Software Engineering \u00b7 Huawei Lab',                          tag:'LAB',        lecturer:'Mr. John Assiamah',             sacred:false },
-    { start:'13:30', end:'15:25', type:'lecture',  title:'SENG 202',                    subtitle:'Differential Equations \u00b7 JQB 09',                            tag:'LECTURE',    lecturer:'Dr. John Kutor',                sacred:false },
-    { start:'16:00', end:'18:00', type:'group',    title:'Study Group',                 subtitle:'Post-lecture session',                                       tag:'GROUP',      lecturer:'',                              sacred:false },
-    { start:'19:30', end:'20:30', type:'study',    title:'Lecture Review \u00d73',           subtitle:'CPEN 208 \u00b7 CPEN 208 LAB \u00b7 SENG 202 \u2014 20 min each',           tag:'REVIEW',     lecturer:'',                              sacred:false },
-    { start:'21:00', end:'23:00', type:'backend',  title:'Backend \u2014 Deep Work',         subtitle:'Primary build window',                                       tag:'BACKEND',    lecturer:'',                              sacred:false },
+    { start:'06:30', end:'08:30', type:'study',   title:'SENG 202',          subtitle:'Differential Equations',                              tag:'SELF-STUDY',  sacred:false },
+    { start:'10:30', end:'12:30', type:'lecture', title:'MTEN 208',          subtitle:'Electrical, Magnetic & Optical Properties of Materials', tag:'CLASS',       sacred:false },
+    { start:'13:30', end:'15:30', type:'lecture', title:'SENG 202',          subtitle:'Differential Equations',                              tag:'CLASS',       sacred:false },
+    { start:'16:30', end:'18:00', type:'ml',      title:'Data Analytics',    subtitle:'Personal analytics session',                          tag:'ANALYTICS',   sacred:false },
+    { start:'21:00', end:'23:00', type:'study',   title:'SENG 202',          subtitle:'Differential Equations — self study',                  tag:'SELF-STUDY',  sacred:false },
+    { start:'23:00', end:'25:00', type:'study',   title:'MTEN 204',          subtitle:'Thermodynamics of Materials — self study',             tag:'SELF-STUDY',  sacred:false },
   ],
   // ── TUESDAY (index 1)
   [
-    { start:'07:30', end:'09:25', type:'lecture',  title:'CPEN 212',                    subtitle:'Data Communications \u00b7 SF-F2',                                tag:'LECTURE',    lecturer:'Dr. Isaac Adjaye Aboagye',      sacred:false },
-    { start:'09:30', end:'11:25', type:'lecture',  title:'CPEN 204',                    subtitle:'Data Structures & Algorithms \u00b7 EW-S2',                       tag:'LECTURE',    lecturer:'Mrs. Gifty Osei',               sacred:false },
-    { start:'12:30', end:'15:25', type:'lab',      title:'CPEN 204 LAB',                subtitle:'Data Structures & Algorithms \u00b7 Huawei Lab',                  tag:'LAB',        lecturer:'Mrs. Gifty Osei',               sacred:false },
-    { start:'15:30', end:'17:25', type:'lab',      title:'SENG 202 TUT',                subtitle:'Differential Equations \u00b7 NNB1',                              tag:'TUTORIAL',   lecturer:'Dr. John Kutor',                sacred:false },
-    { start:'19:30', end:'20:30', type:'study',    title:'Lecture Review \u00d73',           subtitle:'CPEN 212 \u00b7 CPEN 204 \u00b7 SENG 202 TUT \u2014 20 min each',           tag:'REVIEW',     lecturer:'',                              sacred:false },
-    { start:'21:00', end:'23:00', type:'backend',  title:'Backend \u2014 Deep Work',         subtitle:'Heaviest day. Protect this window.',                         tag:'BACKEND',    lecturer:'',                              sacred:false },
+    { start:'07:30', end:'09:30', type:'lecture', title:'SENG 204',          subtitle:'Fluid Mechanics I',                                   tag:'CLASS',       sacred:false },
+    { start:'09:30', end:'11:30', type:'lecture', title:'MTEN 204',          subtitle:'Thermodynamics of Materials',                         tag:'CLASS',       sacred:false },
+    { start:'12:00', end:'14:00', type:'review',  title:'Nap / Revision',    subtitle:'Rest and light review',                               tag:'REST',        sacred:false },
+    { start:'15:30', end:'17:30', type:'lab',     title:'SENG 202',          subtitle:'Differential Equations — Tutorial',                   tag:'TUTORIAL',    sacred:false },
+    { start:'18:00', end:'20:00', type:'review',  title:'Football / Gaming', subtitle:'Recovery & recreation',                               tag:'LEISURE',     sacred:false },
+    { start:'21:00', end:'23:00', type:'study',   title:'SENG 204',          subtitle:'Fluid Mechanics I — review practical concepts',       tag:'SELF-STUDY',  sacred:false },
+    { start:'23:00', end:'25:00', type:'study',   title:'MTEN 204',          subtitle:'Thermodynamics of Materials — self study',             tag:'SELF-STUDY',  sacred:false },
   ],
   // ── WEDNESDAY (index 2)
   [
-    { start:'07:30', end:'09:25', type:'lecture',  title:'CPEN 202',                    subtitle:'Computer Systems Design \u00b7 SF-F2',                            tag:'LECTURE',    lecturer:'Mr. Agyare Debra',              sacred:false },
-    { start:'09:30', end:'11:25', type:'lecture',  title:'CBAS 210',                    subtitle:'Academic Writing II \u00b7 JQB 22',                               tag:'LECTURE',    lecturer:'Dr. Magaret Ansah Richardson',  sacred:false },
-    { start:'12:30', end:'15:25', type:'lab',      title:'CPEN 212 LAB',                subtitle:'Data Communications \u00b7 Electronics Lab',                      tag:'LAB',        lecturer:'Dr. Isaac Adjaye Aboagye',      sacred:false },
-    { start:'15:30', end:'17:25', type:'lab',      title:'CPEN 206 LAB',                subtitle:'Linear Circuits \u00b7 Electronics Lab',                          tag:'LAB',        lecturer:'Dr. Percy Okae',                sacred:false },
-    { start:'19:30', end:'20:00', type:'study',    title:'Lecture Review \u00d72',           subtitle:'CPEN 202 \u00b7 CBAS 210 \u2014 20 min each',                          tag:'REVIEW',     lecturer:'',                              sacred:false },
-    { start:'20:00', end:'22:00', type:'ml',       title:'ML Consolidation',            subtitle:'NotebookLM \u00b7 Quiz gaps \u00b7 Review notes',                      tag:'ML',         lecturer:'',                              sacred:false },
+    { start:'06:30', end:'07:30', type:'study',   title:'CBAS 210',          subtitle:'Academic Writing II — self study',                    tag:'SELF-STUDY',  sacred:false },
+    { start:'09:30', end:'11:30', type:'lecture', title:'CBAS 210',          subtitle:'Academic Writing II',                                 tag:'CLASS',       sacred:false },
+    { start:'13:00', end:'15:00', type:'ml',      title:'Data Analytics',    subtitle:'Personal analytics session',                          tag:'ANALYTICS',   sacred:false },
+    { start:'15:30', end:'17:30', type:'lecture', title:'MTEN 202',          subtitle:'Kinetic Processes & Surface Phenomenon',              tag:'CLASS',       sacred:false },
+    { start:'21:00', end:'23:00', type:'study',   title:'CBAS 210',          subtitle:'Academic Writing II — self study',                    tag:'SELF-STUDY',  sacred:false },
+    { start:'23:00', end:'25:00', type:'study',   title:'MTEN 202',          subtitle:'Kinetic Processes & Surface Phenomenon — self study', tag:'SELF-STUDY',  sacred:false },
   ],
   // ── THURSDAY (index 3)
   [
-    { start:'09:30', end:'11:25', type:'lecture',  title:'CPEN 206',                    subtitle:'Linear Circuits \u00b7 WW-S3',                                    tag:'LECTURE',    lecturer:'Dr. Percy Okae',                sacred:false },
-    { start:'11:30', end:'13:25', type:'lab',      title:'SENG 202 LAB',                subtitle:'Differential Equations \u00b7 JQB 14',                            tag:'LAB',        lecturer:'Dr. John Kutor',                sacred:false },
-    { start:'14:00', end:'16:00', type:'group',    title:'Study Group',                 subtitle:'Post-lecture session',                                       tag:'GROUP',      lecturer:'',                              sacred:false },
-    { start:'19:30', end:'20:30', type:'study',    title:'Lecture Review \u00d72',           subtitle:'CPEN 206 \u00b7 SENG 202 LAB \u2014 20 min each',                      tag:'REVIEW',     lecturer:'',                              sacred:false },
-    { start:'21:00', end:'23:00', type:'backend',  title:'Backend \u2014 Deep Work',         subtitle:'Biggest session of the week',                                tag:'BACKEND',    lecturer:'',                              sacred:false },
+    { start:'07:30', end:'09:30', type:'lecture', title:'MTEN 212',          subtitle:'Materials Properties Laboratory',                     tag:'CLASS',       sacred:false },
+    { start:'11:30', end:'16:30', type:'lab',     title:'SENG 204',          subtitle:'Fluid Mechanics I — Lab',                            tag:'LAB',         sacred:false },
+    { start:'21:00', end:'23:00', type:'study',   title:'MTEN 212',          subtitle:'Materials Properties Laboratory — self study',        tag:'SELF-STUDY',  sacred:false },
+    { start:'23:00', end:'25:00', type:'study',   title:'SENG 204',          subtitle:'Fluid Mechanics I — self study',                      tag:'SELF-STUDY',  sacred:false },
   ],
   // ── FRIDAY (index 4)
   [
-    { start:'09:00', end:'11:00', type:'backend',  title:'Backend \u2014 Morning Session',   subtitle:'No lectures. Fresh mind. Best focus.',                       tag:'BACKEND',    lecturer:'',                              sacred:false },
-    { start:'12:00', end:'14:00', type:'group',    title:'Study Group',                 subtitle:'Time TBC',                                                   tag:'GROUP',      lecturer:'',                              sacred:false },
-    { start:'13:30', end:'15:25', type:'lab',      title:'CPEN 202 LAB',                subtitle:'Computer Systems Design \u00b7 Electronics Lab',                  tag:'LAB',        lecturer:'Mr. Agyare Debra',              sacred:false },
-    { start:'15:00', end:'17:00', type:'ml',       title:'ML Session',                  subtitle:'Weekly meeting',                                             tag:'MEETING',    lecturer:'',                              sacred:false },
-    { start:'20:00', end:'22:00', type:'ml',       title:'ML Consolidation',            subtitle:'NotebookLM \u00b7 Apply to backend context',                      tag:'ML',         lecturer:'',                              sacred:false },
+    { start:'05:30', end:'06:30', type:'study',   title:'MTEN 204',          subtitle:'Thermodynamics of Materials — self study',             tag:'SELF-STUDY',  sacred:false },
+    { start:'08:30', end:'11:30', type:'lecture', title:'MTEN 204',          subtitle:'Thermodynamics of Materials',                         tag:'CLASS',       sacred:false },
+    { start:'12:30', end:'14:30', type:'lecture', title:'MTEN 208',          subtitle:'Electrical, Magnetic & Optical Properties of Materials', tag:'CLASS',       sacred:false },
+    { start:'15:00', end:'18:00', type:'review',  title:'Football / Gaming', subtitle:'Recovery & recreation',                               tag:'LEISURE',     sacred:false },
+    { start:'18:00', end:'20:00', type:'ml',      title:'Data Analytics',    subtitle:'Personal analytics session',                          tag:'ANALYTICS',   sacred:false },
+    { start:'21:00', end:'23:00', type:'study',   title:'MTEN 208',          subtitle:'Electrical, Magnetic & Optical Properties of Materials — self study', tag:'SELF-STUDY', sacred:false },
+    { start:'23:00', end:'24:00', type:'review',  title:'Free Time',         subtitle:'Light revision or rest',                              tag:'LEISURE',     sacred:false },
   ],
   // ── SATURDAY (index 5)
   [
@@ -1624,7 +1624,8 @@ const TIMETABLE = [
 // HELPERS
 // ══════════════════════════════════════════════════════════════════════
 const PX_PER_MIN  = 1.4;
-const START_MIN   = 420;   // 07:00
+const START_MIN   = 300;   // 05:00
+const TOTAL_MIN   = 1260;  // 05:00 → 26:00 (1am next day)
 
 function timeToMin(t) {
   const [h, m] = t.split(':').map(Number);
@@ -1672,6 +1673,12 @@ const CAT_PILL_STYLES = {
 // University vs personal classification
 function isUni(type) {
   return type === 'lecture' || type === 'lab';
+}
+
+// Display hour label — handles hours >= 24 (next-day wrapping)
+function hourLabel(h) {
+  if (h >= 24) return `${String(h - 24).padStart(2,'0')}:00`;
+  return `${String(h).padStart(2,'0')}:00`;
 }
 
 // ── Category SVG icons (Lucide paths, inlined) ──
@@ -1955,15 +1962,11 @@ function openModal(block) {
 
   const dur    = durationLabel(block.start, block.end);
   const dayIdx = block._dayIdx !== undefined ? block._dayIdx : '';
-  const lecturerRow = block.lecturer
-    ? `<div class="modal-meta-row"><span class="modal-meta-key">Lecturer</span><span class="modal-meta-val">${block.lecturer}</span></div>`
-    : '';
   document.getElementById('modalMeta').innerHTML = `
     <div class="modal-meta-row"><span class="modal-meta-key">Type</span><span class="modal-meta-val">${block.type.charAt(0).toUpperCase()+block.type.slice(1)}</span></div>
     <div class="modal-meta-row"><span class="modal-meta-key">Duration</span><span class="modal-meta-val">${dur}</span></div>
     <div class="modal-meta-row"><span class="modal-meta-key">Tag</span><span class="modal-meta-val">${block.tag}</span></div>
     ${dayIdx !== '' ? `<div class="modal-meta-row"><span class="modal-meta-key">Day</span><span class="modal-meta-val">${DAY_FULL[dayIdx]}</span></div>` : ''}
-    ${lecturerRow}
   `;
 
   modalOverlay.classList.add('open');
@@ -1984,14 +1987,15 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal
 // ══════════════════════════════════════════════════════════════════════
 function buildTimeAxis() {
   const axis = document.getElementById('timeAxis');
-  axis.style.height = `${960 * PX_PER_MIN}px`;
-  for (let h = 7; h <= 23; h++) {
+  axis.style.height = `${TOTAL_MIN * PX_PER_MIN}px`;
+  for (let h = 5; h <= 26; h++) {
     const minFromStart = (h * 60) - START_MIN;
+    if (minFromStart < 0 || minFromStart > TOTAL_MIN) continue;
     const blockTop = minFromStart * PX_PER_MIN;
     const tick = document.createElement('div');
     tick.className = 'time-tick';
     tick.style.top = `${blockTop}px`;
-    tick.innerHTML = `<span>${String(h).padStart(2,'0')}:00</span>`;
+    tick.innerHTML = `<span>${hourLabel(h)}</span>`;
     axis.appendChild(tick);
   }
 }
@@ -2022,8 +2026,9 @@ function buildDesktopGrid() {
     col.appendChild(hdr);
 
     // Hour guide lines
-    for (let h = 7; h <= 23; h++) {
+    for (let h = 5; h <= 26; h++) {
       const minOffset = (h * 60) - START_MIN;
+      if (minOffset < 0 || minOffset > TOTAL_MIN) continue;
       const blockTop = minOffset * PX_PER_MIN;
       const line = document.createElement('div');
       line.className = 'hour-line';
@@ -2093,7 +2098,7 @@ function updateDesktopNowLine() {
   const line = document.getElementById('desktopNowLine');
   if (!line) return;
   const nowMin = getCurrentMinutes();
-  if (nowMin < START_MIN || nowMin > START_MIN + 960) {
+  if (nowMin < START_MIN || nowMin > START_MIN + TOTAL_MIN) {
     line.style.display = 'none';
     return;
   }
@@ -2203,7 +2208,7 @@ function updateMobileNowBanner(dayIdx) {
   const todayIdx   = getTodayIndex();
   if (dayIdx === todayIdx) {
     const nowMin = getCurrentMinutes();
-    if (nowMin >= START_MIN && nowMin <= START_MIN + 960) {
+    if (nowMin >= START_MIN && nowMin <= START_MIN + TOTAL_MIN) {
       bannerText.textContent = `NOW  \u00b7  ${formatTime(nowMin)}`;
       banner.classList.add('visible');
       return;

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'apex-os-v2';
+﻿const CACHE_NAME = 'precision-os-v2';
 const CACHE_URLS = [
   '/',
   '/index.html',

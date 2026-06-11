@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#080808" />
-  <meta name="description" content="APEX Semester OS  ·  Semester schedule dashboard for Romel Lartey  ·  UG CPEN Level 200" />
+  <meta name="description" content="PRECISION Semester OS  ·  Semester schedule dashboard for Romel Lartey  ·  UG CPEN Level 200" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="manifest.json" />
@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <title>APEX Semester OS</title>
+  <title>PRECISION Semester OS</title>
 
   <style>
     /* ─── RESET ─────────────────────────────────────────── */
@@ -86,7 +86,7 @@
     #app { display: flex; flex-direction: column; min-height: 100vh; }
 
     /* ─── HEADER — TOP STRIP ─────────────────────────────── */
-    .apex-header {
+    .precision-header {
       position: sticky; top: 0; z-index: 100;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -1294,7 +1294,7 @@
     }
 
     /* ─── FOOTER ─────────────────────────────────────────── */
-    .apex-footer {
+    .precision-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -1302,7 +1302,7 @@
       border-top: 1px solid var(--border);
       background: var(--surface);
     }
-    .apex-footer span {
+    .precision-footer span {
       font-family: var(--mono);
       font-size: 9px;
       color: var(--border2);
@@ -1319,7 +1319,7 @@
       .mobile-view { display: block; }
 
       /* ── Header top strip: hide long institution text, keep active badge ── */
-      .apex-header { padding: 0; }
+      .precision-header { padding: 0; }
       .header-top-strip { padding: 4px 12px; }
       .header-top-strip .institution-text { display: none; }
 
@@ -1350,8 +1350,8 @@
       .modal-sheet { max-width: 100%; border-radius: 16px 16px 0 0; padding: 16px 16px 28px; }
 
       /* ── Footer ── */
-      .apex-footer { padding: 6px 12px; }
-      .apex-footer span:last-child { display: none; }
+      .precision-footer { padding: 6px 12px; }
+      .precision-footer span:last-child { display: none; }
     }
 
     @media (min-width: 768px) {
@@ -1367,7 +1367,7 @@
 <div id="app">
 
   <!-- ═══════════════════════════════════════════════════════ HEADER -->
-  <header class="apex-header">
+  <header class="precision-header">
 
     <!-- TOP STRIP -->
     <div class="header-top-strip">
@@ -1384,7 +1384,7 @@
       <div class="header-brand-group">
         <div class="header-logo">A</div>
         <div class="header-brand-text">
-          <div class="header-title">APEX &mdash; <span class="accent">Semester OS</span></div>
+          <div class="header-title">PRECISION &mdash; <span class="accent">Semester OS</span></div>
           <div class="header-sub">CPEN &middot; Level 200</div>
         </div>
       </div>
@@ -1513,8 +1513,8 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════ FOOTER -->
-  <footer class="apex-footer">
-    <span>APEX &mdash; Semester OS &middot; UG CPEN Level 200</span>
+  <footer class="precision-footer">
+    <span>PRECISION &mdash; Semester OS &middot; UG CPEN Level 200</span>
     <span>Sem 2 &middot; 2025/2026</span>
   </footer>
 
@@ -1723,7 +1723,7 @@ function formatCurrentTime() {
 function toggleTheme() {
   const isLight = document.documentElement.getAttribute('data-theme') === 'light';
   document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
-  localStorage.setItem('apex-theme', isLight ? 'dark' : 'light');
+  localStorage.setItem('precision-theme', isLight ? 'dark' : 'light');
   updateThemeIcon();
 }
 
@@ -1734,7 +1734,7 @@ function updateThemeIcon() {
 }
 
 function initTheme() {
-  const saved = localStorage.getItem('apex-theme') || 'dark';
+  const saved = localStorage.getItem('precision-theme') || 'dark';
   document.documentElement.setAttribute('data-theme', saved);
   updateThemeIcon();
 }
@@ -2254,7 +2254,7 @@ function rebuildTimetable() {
 // ══════════════════════════════════════════════════════════════════════
 // TASKS PANEL
 // ══════════════════════════════════════════════════════════════════════
-const TASKS_KEY = 'apex-daily-tasks-v1';
+const TASKS_KEY = 'precision-daily-tasks-v1';
 
 function todayStr() {
   const d = new Date();

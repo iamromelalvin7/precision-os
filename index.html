@@ -1361,16 +1361,21 @@
       .header-top-strip .institution-text { display: none; }
 
       /* ── Header main row: compact on mobile ── */
-      .header-main-row { padding: 0 16px; height: 50px; gap: 10px; }
-      .header-logo { width: 30px; height: 30px; font-size: 16px; border-radius: 7px; }
-      .header-title { font-size: 17px; }
+      .header-main-row { padding: 0 12px; height: 50px; gap: 8px; }
+      /* Allow brand to shrink so controls never get clipped */
+      .header-brand-group { flex-shrink: 1; min-width: 0; }
+      .header-brand-text { min-width: 0; overflow: hidden; }
+      .header-logo { width: 28px; height: 28px; font-size: 15px; border-radius: 6px; flex-shrink: 0; }
+      .header-title { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .header-sub { display: none; }
       .header-meta-pills { display: none !important; }
       .header-divider { display: none !important; }
-      .header-controls { gap: 6px; }
-      .theme-toggle-btn { width: 32px; height: 32px; }
-      .theme-toggle-btn svg { width: 15px; height: 15px; }
-      .view-nav-btn { padding: 6px 12px; font-size: 8px; min-height: 32px; }
+      /* Controls must never shrink — they contain the nav pill */
+      .header-controls { gap: 5px; flex-shrink: 0; }
+      .theme-toggle-btn { width: 30px; height: 30px; flex-shrink: 0; }
+      .theme-toggle-btn svg { width: 14px; height: 14px; }
+      .view-nav-pill { flex-shrink: 0; }
+      .view-nav-btn { padding: 5px 9px; font-size: 8px; min-height: 30px; white-space: nowrap; }
 
       /* ── NOW view ── */
       #nowView { padding: 16px; max-width: 100%; gap: 14px; }

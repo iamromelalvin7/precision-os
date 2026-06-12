@@ -1695,6 +1695,7 @@ const TIMETABLE = [
   [
     { start:'07:30', end:'09:30', type:'lecture', title:'MTEN 212',          subtitle:'Materials Properties Laboratory',                     tag:'CLASS',       sacred:false },
     { start:'11:30', end:'16:30', type:'lab',     title:'SENG 204',          subtitle:'Fluid Mechanics I — Lab',                            tag:'LAB',         sacred:false },
+    { start:'17:00', end:'21:00', type:'review',  title:'Rest / Revision',   subtitle:'Post-lab recovery & light review',                    tag:'REST',        sacred:false },
     { start:'21:00', end:'23:00', type:'study',   title:'MTEN 212',          subtitle:'Materials Properties Laboratory — self study',        tag:'SELF-STUDY',  sacred:false },
     { start:'23:00', end:'25:00', type:'study',   title:'SENG 204',          subtitle:'Fluid Mechanics I — self study',                      tag:'SELF-STUDY',  sacred:false },
   ],
@@ -1710,20 +1711,22 @@ const TIMETABLE = [
   ],
   // ── SATURDAY (index 5)
   [
-    { start:'10:00', end:'13:00', type:'backend',  title:'Backend Sprint',              subtitle:'SACRED \u2014 nothing moves this. Ever.',                         tag:'SACRED',     lecturer:'',                              sacred:true  },
-    { start:'14:00', end:'17:00', type:'study',    title:'Personal Study',              subtitle:'Deep block \u00b7 Past questions \u00b7 CPEN 204 + SENG 202 priority', tag:'3HRS',       lecturer:'',                              sacred:false },
-    { start:'15:00', end:'17:00', type:'ml',       title:'ML Session',                  subtitle:'Weekly meeting',                                             tag:'MEETING',    lecturer:'',                              sacred:false },
-    { start:'17:30', end:'18:30', type:'ml',       title:'ML Self-Study',               subtitle:'NumPy \u00b7 Pandas \u00b7 Course materials',                          tag:'SELF',       lecturer:'',                              sacred:false },
-    { start:'19:30', end:'21:00', type:'robotics', title:'Arduino Bootcamp',            subtitle:'Evening session',                                            tag:'BOOTCAMP',   lecturer:'',                              sacred:false },
-    { start:'21:00', end:'23:00', type:'review',   title:'Rest',                        subtitle:'Earned. Take it fully.',                                     tag:'REST',       lecturer:'',                              sacred:false },
+    { start:'08:00', end:'10:00', type:'study',   title:'SENG 202',          subtitle:'Differential Equations — Sacred Focus',               tag:'SELF-STUDY',  sacred:true  },
+    { start:'10:00', end:'12:00', type:'study',   title:'SENG 202',          subtitle:'Differential Equations — Sacred Focus',               tag:'SELF-STUDY',  sacred:true  },
+    { start:'14:00', end:'16:00', type:'ml',      title:'Data Analytics',    subtitle:'Personal analytics session',                          tag:'ANALYTICS',   sacred:false },
+    { start:'16:00', end:'19:00', type:'study',   title:'MTEN 204',          subtitle:'Thermodynamics of Materials — self study',             tag:'SELF-STUDY',  sacred:false },
+    { start:'19:00', end:'21:00', type:'review',  title:'Football / Friends / Gaming', subtitle:'Recovery & recreation',                     tag:'LEISURE',     sacred:false },
+    { start:'21:00', end:'23:00', type:'study',   title:'SENG 204',          subtitle:'Fluid Mechanics I — self study',                      tag:'SELF-STUDY',  sacred:false },
+    { start:'23:00', end:'24:00', type:'study',   title:'CBAS 210',          subtitle:'Academic Writing II — self study',                    tag:'SELF-STUDY',  sacred:false },
   ],
   // ── SUNDAY (index 6)
   [
-    { start:'10:00', end:'13:00', type:'study',    title:'Personal Study',              subtitle:'Remaining subjects \u00b7 Weak areas from the week',              tag:'3HRS',       lecturer:'',                              sacred:false },
-    { start:'14:00', end:'16:00', type:'backend',  title:'Backend \u2014 Weekend Session 2', subtitle:'Overflow \u00b7 Debug \u00b7 GitHub push',                             tag:'2HRS',       lecturer:'',                              sacred:false },
-    { start:'19:30', end:'21:00', type:'robotics', title:'Arduino Bootcamp',            subtitle:'Evening session',                                            tag:'BOOTCAMP',   lecturer:'',                              sacred:false },
-    { start:'20:00', end:'21:00', type:'review',   title:'Weekly Review',               subtitle:'What shipped vs planned? GPA risks?',                        tag:'REVIEW',     lecturer:'',                              sacred:false },
-    { start:'21:00', end:'22:00', type:'review',   title:'Next Week Planning',          subtitle:'One backend target \u00b7 One subject focus',                    tag:'PLAN',       lecturer:'',                              sacred:false },
+    { start:'08:00', end:'11:00', type:'review',  title:'Church',            subtitle:'Morning service',                                     tag:'CHURCH',      sacred:false },
+    { start:'13:00', end:'15:00', type:'study',   title:'MTEN 208',          subtitle:'Electrical, Magnetic & Optical Properties of Materials — self study', tag:'SELF-STUDY', sacred:false },
+    { start:'15:30', end:'17:00', type:'study',   title:'SENG 202',          subtitle:'Differential Equations — self study',                  tag:'SELF-STUDY',  sacred:false },
+    { start:'17:00', end:'19:00', type:'ml',      title:'Data Analytics',    subtitle:'Personal analytics session',                          tag:'ANALYTICS',   sacred:false },
+    { start:'21:00', end:'23:00', type:'study',   title:'SENG 202',          subtitle:'Differential Equations — Sacred Focus',               tag:'SELF-STUDY',  sacred:true  },
+    { start:'23:00', end:'24:00', type:'study',   title:'MTEN 208',          subtitle:'Electrical, Magnetic & Optical Properties of Materials — self study', tag:'SELF-STUDY', sacred:false },
   ],
 ];
 

@@ -1465,6 +1465,77 @@
       .mobile-view { display: none !important; }
     }
 
+    /* ─── NOTIFICATION BELL ──────────────────────────────── */
+    .notif-toggle-btn {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .notif-toggle-btn:hover { color: var(--text); border-color: var(--text-muted); }
+    .notif-toggle-btn svg { width: 14px; height: 14px; }
+    .notif-toggle-btn.notif-active {
+      color: var(--accent);
+      background: #0a2010;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px rgba(76,175,80,0.25);
+    }
+    /* Pulse ring when active */
+    .notif-toggle-btn.notif-active::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1px solid rgba(76,175,80,0.35);
+      animation: notif-ring 2.5s ease-in-out infinite;
+    }
+    @keyframes notif-ring {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 0; transform: scale(1.35); }
+    }
+
+    /* ─── NOTIFICATION TOAST ─────────────────────────────── */
+    #notifToast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      padding: 10px 18px;
+      border-radius: 30px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    }
+    #notifToast.toast-show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    #notifToast.toast-ok {
+      background: #0a2010;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+    #notifToast.toast-err {
+      background: #1a0800;
+      border: 1px solid #e65100;
+      color: #ffcc80;
+    }
+    #notifToast svg { width: 12px; height: 12px; flex-shrink: 0; }
+
     /* ─── UTILITY ────────────────────────────────────────── */
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
     .hidden { display: none !important; }
@@ -1511,6 +1582,20 @@
 
       <!-- Controls -->
       <div class="header-controls">
+        <!-- Notification bell -->
+        <button class="notif-toggle-btn" id="notifToggleBtn" onclick="toggleNotifications()" aria-label="Toggle notifications" title="Enable/disable notifications">
+          <!-- Bell icon (outline = off) -->
+          <svg id="iconBellOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <!-- Bell icon (filled = on, hidden by default) -->
+          <svg id="iconBellOn" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </button>
+
         <!-- Theme toggle -->
         <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark theme">
           <!-- Moon icon (shown in dark mode) -->
@@ -1646,6 +1731,9 @@
     </svg>
     NOW
   </button>
+
+  <!-- ═══════════════════════════════════════════════════════ NOTIFICATION TOAST -->
+  <div id="notifToast" role="status" aria-live="polite"></div>
 
 </div><!-- #app -->
 
@@ -2503,6 +2591,177 @@ function initTasks() {
 }
 
 // ══════════════════════════════════════════════════════════════════════
+// NOTIFICATIONS
+// ══════════════════════════════════════════════════════════════════════
+const NOTIF_KEY = 'precision-notif-enabled';
+let notifEnabled = false;
+// Tracks IDs of notifications already scheduled this session to avoid duplicates
+// Key format: 'block-{dayIdx}-{start}-{title}' or 'task-{dateStr}'
+const scheduledNotifIds = new Set();
+// Holds active timeout handles so we can cancel them when notifications are disabled
+const notifTimeouts = new Map();
+
+// ── Toast helper ──────────────────────────────────────────────────────
+let _toastTimer = null;
+function showNotifToast(msg, isError) {
+  const toast = document.getElementById('notifToast');
+  if (!toast) return;
+  const bellSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
+  const xSvg    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+  toast.innerHTML = (isError ? xSvg : bellSvg) + msg;
+  toast.className = isError ? 'toast-show toast-err' : 'toast-show toast-ok';
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(function() { toast.className = ''; }, 3200);
+}
+
+// ── Update bell button visual state ──────────────────────────────────
+function updateNotifBtn() {
+  const btn     = document.getElementById('notifToggleBtn');
+  const iconOff = document.getElementById('iconBellOff');
+  const iconOn  = document.getElementById('iconBellOn');
+  if (!btn) return;
+  if (notifEnabled) {
+    btn.classList.add('notif-active');
+    if (iconOff) iconOff.style.display = 'none';
+    if (iconOn)  iconOn.style.display  = '';
+    btn.setAttribute('title', 'Notifications ON — click to disable');
+  } else {
+    btn.classList.remove('notif-active');
+    if (iconOff) iconOff.style.display = '';
+    if (iconOn)  iconOn.style.display  = 'none';
+    btn.setAttribute('title', 'Enable notifications (1 hr before each block)');
+  }
+}
+
+// ── Fire a single browser notification ───────────────────────────────
+function fireNotification(title, body, tag) {
+  if (!notifEnabled) return;
+  if (Notification.permission !== 'granted') return;
+  try {
+    new Notification(title, {
+      body: body,
+      tag:  tag,
+      icon: 'icons/icon-192.png',
+      badge:'icons/icon-192.png',
+    });
+  } catch (e) {
+    console.warn('PRECISION: Notification failed', e);
+  }
+}
+
+// ── Schedule today's upcoming notifications ───────────────────────────
+// Idempotent — uses scheduledNotifIds to avoid queuing duplicates.
+// Called on init and every 60s tick.
+function scheduleAllNotifications() {
+  if (!notifEnabled || Notification.permission !== 'granted') return;
+
+  var todayIdx  = getTodayIndex();
+  var nowMin    = getCurrentMinutes();
+  var LEAD      = 60; // minutes before block start
+
+  // Schedule timetable blocks
+  TIMETABLE[todayIdx].forEach(function(blk) {
+    var startMin = timeToMin(blk.start);
+    var fireMin  = startMin - LEAD;
+    var msUntil  = (fireMin - nowMin) * 60 * 1000;
+    var id       = 'block-' + todayIdx + '-' + blk.start + '-' + blk.title;
+
+    if (msUntil <= 0 || scheduledNotifIds.has(id)) return;
+
+    scheduledNotifIds.add(id);
+    var handle = setTimeout(function() {
+      var label = blk.sacred
+        ? '\u26a1 SACRED block in 1 hour'
+        : '\u23f0 ' + blk.title + ' in 1 hour';
+      fireNotification(label, blk.subtitle + ' \u00b7 ' + blk.start + ' \u2013 ' + blk.end, id);
+    }, msUntil);
+    notifTimeouts.set(id, handle);
+  });
+
+  // Schedule task reminder at 21:00 if pending tasks exist
+  var taskId        = 'task-' + todayStr();
+  var fireAtMin     = 21 * 60;
+  var msUntilTask   = (fireAtMin - nowMin) * 60 * 1000;
+
+  if (msUntilTask > 0 && !scheduledNotifIds.has(taskId)) {
+    var allTasks   = loadTasks();
+    var todayTasks = (allTasks[todayStr()] || []).filter(function(t) { return !t.done && !t.failed; });
+    if (todayTasks.length > 0) {
+      scheduledNotifIds.add(taskId);
+      var count = todayTasks.length;
+      var lines = todayTasks.slice(0, 3).map(function(t) { return '\u2022 ' + t.text; }).join('\n');
+      var thandle = setTimeout(function() {
+        fireNotification(
+          '\ud83d\udccb ' + count + ' task' + (count > 1 ? 's' : '') + ' pending today',
+          lines,
+          taskId
+        );
+      }, msUntilTask);
+      notifTimeouts.set(taskId, thandle);
+    }
+  }
+}
+
+// ── Cancel all pending notification timeouts ─────────────────────────
+function cancelAllNotifications() {
+  notifTimeouts.forEach(function(handle) { clearTimeout(handle); });
+  notifTimeouts.clear();
+  scheduledNotifIds.clear();
+}
+
+// ── Toggle notifications on/off ───────────────────────────────────────
+function toggleNotifications() {
+  if (!('Notification' in window)) {
+    showNotifToast('Notifications not supported in this browser', true);
+    return;
+  }
+
+  if (notifEnabled) {
+    // Turn off
+    notifEnabled = false;
+    localStorage.setItem(NOTIF_KEY, 'false');
+    cancelAllNotifications();
+    updateNotifBtn();
+    showNotifToast('Notifications disabled');
+    return;
+  }
+
+  // Turn on — request permission if needed
+  if (Notification.permission === 'granted') {
+    notifEnabled = true;
+    localStorage.setItem(NOTIF_KEY, 'true');
+    updateNotifBtn();
+    scheduleAllNotifications();
+    showNotifToast('Notifications ON \u00b7 1 hr heads-up for every block');
+  } else if (Notification.permission === 'denied') {
+    showNotifToast('Permission denied \u00b7 Allow notifications in browser settings', true);
+  } else {
+    // 'default' — prompt
+    Notification.requestPermission().then(function(perm) {
+      if (perm === 'granted') {
+        notifEnabled = true;
+        localStorage.setItem(NOTIF_KEY, 'true');
+        updateNotifBtn();
+        scheduleAllNotifications();
+        showNotifToast('Notifications ON \u00b7 1 hr heads-up for every block');
+      } else {
+        showNotifToast('Permission denied \u00b7 Allow notifications in browser settings', true);
+      }
+    });
+  }
+}
+
+// ── Restore saved state on load ───────────────────────────────────────
+function initNotifications() {
+  var saved = localStorage.getItem(NOTIF_KEY);
+  if (saved === 'true' && 'Notification' in window && Notification.permission === 'granted') {
+    notifEnabled = true;
+    scheduleAllNotifications();
+  }
+  updateNotifBtn();
+}
+
+// ══════════════════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════════════════
 (function init() {
@@ -2514,6 +2773,7 @@ function initTasks() {
   buildWeekSummary();
   renderNowView(); // Default view
   initTasks();
+  initNotifications();
 
   // Auto-refresh every 60 seconds
   const ticker = setInterval(() => {
@@ -2523,6 +2783,7 @@ function initTasks() {
     const todayIdx = getTodayIndex();
     updateMobileNowBanner(todayIdx);
     updateActiveBlockHighlights();
+    if (notifEnabled) scheduleAllNotifications();
   }, 60000);
 
   // Clean up on page unload

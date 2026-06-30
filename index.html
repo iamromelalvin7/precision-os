@@ -1465,6 +1465,115 @@
       .mobile-view { display: none !important; }
     }
 
+    /* ─── iOS NOTIFICATION GUIDE MODAL ──────────────────── */
+    #iosNotifModal {
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(0,0,0,0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    #iosNotifModal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .ios-guide-sheet {
+      width: 100%;
+      max-width: 520px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-bottom: none;
+      border-radius: 16px 16px 0 0;
+      padding: 20px 24px calc(32px + env(safe-area-inset-bottom));
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    #iosNotifModal.open .ios-guide-sheet { transform: translateY(0); }
+    .ios-guide-handle {
+      width: 36px; height: 4px;
+      background: var(--border2);
+      border-radius: 2px;
+      margin: 0 auto 18px;
+    }
+    .ios-guide-title {
+      font-family: var(--display-hero);
+      font-style: italic;
+      font-size: 18px;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .ios-guide-sub {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .ios-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .ios-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .ios-step-num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #0a2010;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 9px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .ios-step-text {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .ios-step-text strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+    .ios-guide-note {
+      font-family: var(--mono);
+      font-size: 8px;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      line-height: 1.5;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-bottom: 16px;
+    }
+    .ios-guide-close {
+      width: 100%;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      color: var(--text-muted);
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .ios-guide-close:hover { color: var(--text); border-color: var(--text-muted); }
+
     /* ─── NOTIFICATION BELL ──────────────────────────────── */
     .notif-toggle-btn {
       width: 30px; height: 30px;
@@ -1731,6 +1840,35 @@
     </svg>
     NOW
   </button>
+
+  <!-- ═══════════════════════════════════════════════════════ iOS NOTIFICATION GUIDE -->
+  <div id="iosNotifModal" role="dialog" aria-modal="true" aria-label="How to enable notifications on iOS">
+    <div class="ios-guide-sheet">
+      <div class="ios-guide-handle" aria-hidden="true"></div>
+      <div class="ios-guide-title">Enable Notifications on iPhone</div>
+      <div class="ios-guide-sub">iOS requires the app to be installed &middot; 2-min setup</div>
+      <div class="ios-steps">
+        <div class="ios-step">
+          <div class="ios-step-num">1</div>
+          <div class="ios-step-text">Open this page in <strong>Safari</strong> (not Chrome). Copy the URL and paste it into Safari.</div>
+        </div>
+        <div class="ios-step">
+          <div class="ios-step-num">2</div>
+          <div class="ios-step-text">Tap the <strong>Share button</strong> <svg style="display:inline;vertical-align:middle;" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> at the bottom of Safari.</div>
+        </div>
+        <div class="ios-step">
+          <div class="ios-step-num">3</div>
+          <div class="ios-step-text">Tap <strong>“Add to Home Screen”</strong> and then <strong>Add</strong>.</div>
+        </div>
+        <div class="ios-step">
+          <div class="ios-step-num">4</div>
+          <div class="ios-step-text">Open <strong>PRECISION</strong> from your Home Screen. Then tap the bell &mdash; notifications will work.</div>
+        </div>
+      </div>
+      <div class="ios-guide-note">Requires iOS 16.4 or later &middot; Notifications only fire while the app is open</div>
+      <button class="ios-guide-close" onclick="closeIosGuide()">Got it</button>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════════════════════════ NOTIFICATION TOAST -->
   <div id="notifToast" role="status" aria-live="polite"></div>
@@ -2709,8 +2847,43 @@ function cancelAllNotifications() {
   scheduledNotifIds.clear();
 }
 
+// ── Platform detection helpers ────────────────────────────────────────
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+function isIOSStandalone() {
+  // Returns true when running as an installed PWA from Home Screen on iOS
+  return !!window.navigator.standalone;
+}
+function isChromeiOS() {
+  return /CriOS/.test(navigator.userAgent);
+}
+
+// ── iOS guide modal ───────────────────────────────────────────────────
+function openIosGuide() {
+  var modal = document.getElementById('iosNotifModal');
+  if (modal) {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+function closeIosGuide() {
+  var modal = document.getElementById('iosNotifModal');
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
 // ── Toggle notifications on/off ───────────────────────────────────────
 function toggleNotifications() {
+  // iOS in browser (Safari tab or Chrome) — Notification API not available
+  // Exception: iOS PWA installed from Home Screen (iOS 16.4+) does support it
+  if (isIOS() && !isIOSStandalone()) {
+    openIosGuide();
+    return;
+  }
+
   if (!('Notification' in window)) {
     showNotifToast('Notifications not supported in this browser', true);
     return;
